@@ -15,7 +15,7 @@ import yassir.challenge.rickandmorty.data.repository.FakeCharacterRepository
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListState
 import yassir.challenge.rickandmorty.presentation.mapper.toListItem
-import yassir.challenge.rickandmorty.ui.theme.AppTheme
+import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 
 @Composable

@@ -24,7 +24,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListItem
 import yassir.challenge.rickandmorty.presentation.commo.GenderText
 import yassir.challenge.rickandmorty.presentation.commo.StatusChip
-import yassir.challenge.rickandmorty.ui.theme.AppTheme
+import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 
 @OptIn(ExperimentalGlideComposeApi::class)

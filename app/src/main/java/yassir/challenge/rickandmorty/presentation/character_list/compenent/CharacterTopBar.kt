@@ -21,7 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import yassir.challenge.rickandmorty.R
-import yassir.challenge.rickandmorty.ui.theme.AppTheme
+import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

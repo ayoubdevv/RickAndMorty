@@ -17,11 +17,11 @@ data class Info(
     @SerialName("count")
     val count: Int,
     @SerialName("next")
-    val next: String,
+    val next: String?,
     @SerialName("pages")
     val pages: Int,
     @SerialName("prev")
-    val prev: Any
+    val prev: String?
 )
 
 @Serializable

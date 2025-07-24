@@ -4,6 +4,6 @@ import yassir.challenge.rickandmorty.domain.module.Character
 
 interface CharacterRepository {
 
-    suspend fun getCharacter(): List<Character>
+    suspend fun getAllCharacter(): List<Character>
 
 }

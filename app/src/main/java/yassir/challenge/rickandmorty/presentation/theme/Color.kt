@@ -1,4 +1,4 @@
-package yassir.challenge.rickandmorty.ui.theme
+package yassir.challenge.rickandmorty.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

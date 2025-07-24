@@ -34,7 +34,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import yassir.challenge.rickandmorty.R
 import yassir.challenge.rickandmorty.presentation.charactar_details.state.CharacterDetailItem
 import yassir.challenge.rickandmorty.presentation.commo.StatusChip
-import yassir.challenge.rickandmorty.ui.theme.AppTheme
+import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 @Composable
 fun CharacterDetailsContent(
