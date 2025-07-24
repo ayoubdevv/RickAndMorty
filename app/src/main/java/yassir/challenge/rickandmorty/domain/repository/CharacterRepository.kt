@@ -6,4 +6,6 @@ interface CharacterRepository {
 
     suspend fun getAllCharacter(): List<Character>
 
+    suspend fun getCharacterDetails(characterId : Int): Character
+
 }

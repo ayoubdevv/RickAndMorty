@@ -24,7 +24,9 @@ fun MainScreen(modifier: Modifier = Modifier) {
         }
 
         composable<Destination.CharacterDetails> {
-            CharacterDetails()
+            CharacterDetails {
+                navController.navigateUp()
+            }
         }
     }
 }

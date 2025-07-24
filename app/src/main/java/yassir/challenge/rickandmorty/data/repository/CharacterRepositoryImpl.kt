@@ -6,9 +6,23 @@ import yassir.challenge.rickandmorty.domain.module.Character
 import yassir.challenge.rickandmorty.domain.repository.CharacterRepository
 import javax.inject.Inject
 
-class CharacterRepositoryImpl @Inject constructor(/*private val api: CharacterApi*/) : CharacterRepository {
+class CharacterRepositoryImpl @Inject constructor(private val api: CharacterApi) : CharacterRepository {
 
     override suspend fun getAllCharacter(): List<Character> {
-        return FakeCharacterRepository.getCharacters().map { it.toDomain() }
+       // return FakeCharacterRepository.getCharacters().map { it.toDomain() }
+
+       return api.getCharacterList(1).results.map { it.toDomain() }
+
     }
+
+    override suspend fun getCharacterDetails(characterId: Int): Character {
+
+
+      /*  return FakeCharacterRepository.getCharacters().first {
+            it.id == characterId
+        }.toDomain()*/
+
+        return api.getCharacterDetails(characterId).toDomain()
+    }
+
 }
