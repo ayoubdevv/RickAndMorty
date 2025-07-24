@@ -11,6 +11,13 @@ interface CharacterApi {
     @GET("character")
     suspend fun getCharacterList(@Query("page") page: Int): CharacterResponseDto
 
+
+    @GET("character")
+    suspend fun searchByCharacterName(@Query("name") query: String): CharacterResponseDto
+
     @GET("character/{characterId}")
     suspend fun getCharacterDetails(@Path("characterId") characterId: Int): CharacterDto
+
+
+
 }
