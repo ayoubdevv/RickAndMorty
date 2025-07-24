@@ -18,6 +18,8 @@ serialization = "1.9.0"
 kotlinx-serialization-converter = "1.0.0"
 retrofit = "2.9.0"
 
+paging = "3.3.6"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,6 +36,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-paging = {module = "androidx.paging:paging-compose", version.ref = "paging"}
 
 hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-compose"}
 hilt-android = { group = "com.google.dagger", name = "hilt-android" ,version.ref = "hilt"}
