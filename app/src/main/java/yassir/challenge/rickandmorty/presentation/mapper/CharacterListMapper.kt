@@ -3,7 +3,7 @@ package yassir.challenge.rickandmorty.presentation.mapper
 import yassir.challenge.rickandmorty.domain.module.Character
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListItem
 
-fun Character.toUi(): CharacterListItem {
+fun Character.toListItem(): CharacterListItem {
     return CharacterListItem(
         id = id,
         name = name,

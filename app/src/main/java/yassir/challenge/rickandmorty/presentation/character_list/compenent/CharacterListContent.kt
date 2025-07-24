@@ -14,7 +14,7 @@ import yassir.challenge.rickandmorty.data.remote.toDomain
 import yassir.challenge.rickandmorty.data.repository.FakeCharacterRepository
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListState
-import yassir.challenge.rickandmorty.presentation.mapper.toUi
+import yassir.challenge.rickandmorty.presentation.mapper.toListItem
 import yassir.challenge.rickandmorty.ui.theme.AppTheme
 
 
@@ -52,7 +52,7 @@ private fun CharacterListContentPreview() {
         CharacterListContent(
             modifier = Modifier.statusBarsPadding(),
             state = CharacterListState(
-                characterList = FakeCharacterRepository.getCharacters().map { it.toDomain().toUi() }),
+                characterList = FakeCharacterRepository.getCharacters().map { it.toDomain().toListItem() }),
             onAction = {}
         )
     }
