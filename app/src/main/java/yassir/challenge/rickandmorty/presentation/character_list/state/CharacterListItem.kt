@@ -4,6 +4,7 @@ data class CharacterListItem(
     val id: Int,
     val name: String,
     val status: String,
+    val gender : String,
     val species: String,
-    val image : String,
+    val imageUrl : String,
 )

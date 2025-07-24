@@ -9,6 +9,7 @@ fun CharacterDto.toDomain(): Character {
         id = id,
         name = name,
         status = status,
+        gender = gender,
         species = species,
         image = image,
     )

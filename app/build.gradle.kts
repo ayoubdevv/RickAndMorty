@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.hilt.compose)
     implementation(libs.hilt.android)
     implementation(libs.hilt.compiler)
     implementation(libs.glide.compose)

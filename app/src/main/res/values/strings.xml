@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
+    <string name="topbar_search_characters_hint">Search characters...</string>
+    <string name="topbar_close_search_content_description">Close search</string>
+    <string name="topbar_search_btn_content_description">Search</string>
+    <string name="topbar_title_characters">Characters</string>
 </resources>
