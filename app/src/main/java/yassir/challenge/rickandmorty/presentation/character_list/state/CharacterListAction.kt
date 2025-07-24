@@ -8,4 +8,10 @@ sealed class CharacterListAction {
 
     data class SnSearchQueryChanged(val query : String) : CharacterListAction()
 
+    data object OnErrorRetry : CharacterListAction()
+
+    data object OnErrorNetworkSettings : CharacterListAction()
+
+
+
 }

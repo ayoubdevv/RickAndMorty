@@ -13,7 +13,8 @@ data class CharacterListState(
 
 sealed class CharacterPagingState {
     object Loading : CharacterPagingState()
-    data class Error(val message: String) : CharacterPagingState()
+    object Empty : CharacterPagingState()
+    data class Error(val message: String,val isNetworkError: Boolean) : CharacterPagingState()
     data class Success(val characters: LazyPagingItems<CharacterListItem>) : CharacterPagingState()
     data class Preview(val characters: List<CharacterListItem>) : CharacterPagingState()
 }

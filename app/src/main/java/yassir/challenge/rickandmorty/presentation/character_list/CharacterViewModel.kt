@@ -14,12 +14,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import yassir.challenge.rickandmorty.domain.usecase.GetAllCharacterUseCase
+import yassir.challenge.rickandmorty.presentation.character_list.CharacterViewModel.UiEvent.*
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListItem
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListState
@@ -41,17 +44,25 @@ class CharacterViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val characterPaging: StateFlow<PagingData<CharacterListItem>> = _state
         .map { it.searchQuery }
+        .distinctUntilChanged()
         .flatMapLatest { query -> getCharacters.characterPaging(query) }
         .map { pagingData -> pagingData.map { it.toListItem() } }
         .cachedIn(viewModelScope)
-        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
+        .stateIn(viewModelScope, SharingStarted.Eagerly, PagingData.empty())
 
     fun onAction(action: CharacterListAction) {
         when (action) {
             is CharacterListAction.OnSearchToggle -> onSearchToggle()
             is CharacterListAction.SnSearchQueryChanged -> onSearchQueryChanged(action.query)
             is CharacterListAction.OnItemClicked -> {
-                _eventChannel.trySend(UiEvent.NavigateToDetail(action.id))
+                _eventChannel.trySend(NavigateToDetail(action.id))
+            }
+
+            CharacterListAction.OnErrorNetworkSettings ->  {
+                _eventChannel.trySend(UiEvent.OnErrorNetworkSettings)
+            }
+            CharacterListAction.OnErrorRetry ->  {
+                _eventChannel.trySend(UiEvent.OnErrorRetry)
             }
         }
     }
@@ -61,10 +72,17 @@ class CharacterViewModel @Inject constructor(
     }
 
     private fun onSearchToggle() {
-        _state.update { it.copy(isSearching = it.isSearching.not(), searchQuery = "") }
+        _state.update {
+            it.copy(
+                isSearching = it.isSearching.not(),
+                searchQuery = if (it.isSearching) "" else it.searchQuery
+            )
+        }
     }
 
     sealed class UiEvent {
         data class NavigateToDetail(val characterId: Int) : UiEvent()
+        data object OnErrorNetworkSettings : UiEvent()
+        data object OnErrorRetry : UiEvent()
     }
 }

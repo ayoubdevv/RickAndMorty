@@ -10,4 +10,20 @@
     <string name="error_no_internet">No Internet connection</string>
     <string name="error_timeout">Request timed out</string>
     <string name="error_unknown">Something went wrong</string>
+
+
+    <!-- Generic Error State -->
+    <string name="error_title">Oops!</string>
+    <string name="error_subtitle">Something went wrong, please try again</string>
+    <string name="retry_button">Retry</string>
+
+    <!-- No Internet Connection -->
+    <string name="no_internet_title">No internet connection</string>
+    <string name="no_internet_subtitle">Please check your internet connection</string>
+    <string name="enable_wifi_button">Enable WiFi</string>
+
+    <!-- No Results -->
+    <string name="no_results_title">No results found</string>
+    <string name="no_results_subtitle">Try adjusting your search to find what you are looking for</string>
+    <string name="search_again_button">Search again</string>
 </resources>
