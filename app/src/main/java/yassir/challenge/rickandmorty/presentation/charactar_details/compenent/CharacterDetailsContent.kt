@@ -1,6 +1,8 @@
 package yassir.challenge.rickandmorty.presentation.charactar_details.compenent
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,11 +41,14 @@ import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 @Composable
 fun CharacterDetailsContent(
-    state : CharacterDetailsState,
+    state: CharacterDetailsState,
     onRetry: () -> Unit,
     onNetworkSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     Surface {
         when {
@@ -59,22 +65,42 @@ fun CharacterDetailsContent(
             }
 
             state.detailItem != null -> {
-                Column(modifier = modifier) {
-                    DetailsHeader(
-                        item = state.detailItem,
-                        modifier = Modifier.weight(1.5f).background(shimmerEffect())
-                    )
-                    DetailsContent(
-                        item = state.detailItem,
-                        modifier = Modifier.weight(1f)
-                    )
+
+                if (isLandscape) {
+                    Row(
+                        modifier = modifier,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        DetailsHeader(
+                            item = state.detailItem,
+                            modifier = Modifier
+                                .weight(1.5f)
+                                .background(shimmerEffect())
+                        )
+                        DetailsContent(
+                            item = state.detailItem,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                } else {
+                    Column(modifier = modifier) {
+                        DetailsHeader(
+                            item = state.detailItem,
+                            modifier = Modifier
+                                .weight(1.5f)
+                                .background(shimmerEffect())
+                        )
+                        DetailsContent(
+                            item = state.detailItem,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
                 }
             }
         }
 
     }
-
-
 
 
 }
@@ -99,7 +125,9 @@ private fun DetailsHeader(
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.matchParentSize().background(Color.Black.copy(.3f)))
+        Spacer(modifier = Modifier
+            .matchParentSize()
+            .background(Color.Black.copy(.3f)))
 
         CharacterName(
             name = item.name,
@@ -114,6 +142,14 @@ fun DetailsContent(item: CharacterDetailItem, modifier: Modifier = Modifier) {
 
     Surface(modifier = modifier) {
         Column {
+
+            Text(
+                text = stringResource(R.string.character_info),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(12.dp)
+            )
+
             CharacterInfoRow("Species", item.species)
             CharacterInfoRow("Gender", item.gender)
             CharacterInfoRow("Location", item.location)

@@ -1,5 +1,6 @@
 package yassir.challenge.rickandmorty.presentation.character_list.compenent
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells.*
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
@@ -50,9 +52,14 @@ private fun CharacterList(
     state: CharacterPagingState.Success,
     onAction: (CharacterListAction) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+    val column = if (isLandscape) 4 else 2
+
     LazyVerticalGrid(
         modifier = modifier,
-        columns = Fixed(2),
+        columns = Fixed(column),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(8.dp)
@@ -78,7 +85,7 @@ private fun CharacterListContentPreview() {
     AppTheme {
         CharacterListContent(
             modifier = Modifier.statusBarsPadding(),
-            state = CharacterPagingState.Error(message = "Error",isNetworkError = false),
+            state = CharacterPagingState.Error(message = "Error", isNetworkError = false),
             onAction = {}
         )
     }

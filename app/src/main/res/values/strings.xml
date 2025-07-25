@@ -27,4 +27,5 @@
     <string name="no_results_title">No results found</string>
     <string name="no_results_subtitle">Try adjusting your search to find what you are looking for</string>
     <string name="search_again_button">Search again</string>
+    <string name="character_info">Character Info :</string>
 </resources>
