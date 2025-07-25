@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,14 +22,15 @@ import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 @Composable
 fun ErrorScreen(
     modifier: Modifier = Modifier,
+    errorMessage: String = stringResource(R.string.error_subtitle),
     isNetworkError: Boolean = true,
     onRetry: () -> Unit = {},
-    onNetworkSettings :() -> Unit = {}
+    onNetworkSettings: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
         Image(
             painter = painterResource(if (isNetworkError) R.drawable.no_internet else R.drawable.error),
@@ -42,14 +44,20 @@ fun ErrorScreen(
         )
 
         Text(
-            text = stringResource(if (isNetworkError) R.string.no_internet_subtitle else   R.string.error_subtitle),
+            text = if (isNetworkError) stringResource(R.string.no_internet_subtitle) else errorMessage,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
 
-        Button(onClick =  if (isNetworkError) onNetworkSettings else onRetry) {
-            Text(stringResource(if (isNetworkError) R.string.enable_wifi_button else R.string.retry_button))
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Button(onClick = onNetworkSettings) {
+                Text(stringResource(R.string.enable_wifi_button))
+            }
+
+            TextButton(onClick = onRetry) {
+                Text(stringResource(R.string.retry_button))
+            }
         }
     }
 }

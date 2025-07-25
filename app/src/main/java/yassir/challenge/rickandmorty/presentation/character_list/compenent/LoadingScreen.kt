@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import yassir.challenge.rickandmorty.presentation.commo.shimmerEffect
 import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 @Composable
@@ -52,28 +53,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun LoadingCharacterItem() {
 
-    val transition = rememberInfiniteTransition()
-
-    val shimmerColors = listOf(
-        Color.LightGray.copy(alpha = 0.6f),
-        Color.LightGray.copy(alpha = 0.2f),
-        Color.LightGray.copy(alpha = 0.6f)
-    )
-
-    val translateAnimation by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1000f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 1000, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-   val  brush = Brush.linearGradient(
-        colors = shimmerColors,
-       start = Offset(x = translateAnimation, y = translateAnimation),
-       end = Offset(x = translateAnimation + 100f, y = translateAnimation + 100f),
-    )
+    val brush = shimmerEffect()
 
 
 

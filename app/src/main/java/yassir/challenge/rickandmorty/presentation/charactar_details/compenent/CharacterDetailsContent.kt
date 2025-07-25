@@ -10,12 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,30 +30,51 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
 import yassir.challenge.rickandmorty.R
 import yassir.challenge.rickandmorty.presentation.charactar_details.state.CharacterDetailItem
+import yassir.challenge.rickandmorty.presentation.charactar_details.state.CharacterDetailsState
+import yassir.challenge.rickandmorty.presentation.character_list.compenent.ErrorScreen
 import yassir.challenge.rickandmorty.presentation.commo.StatusChip
+import yassir.challenge.rickandmorty.presentation.commo.shimmerEffect
 import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
 @Composable
 fun CharacterDetailsContent(
-    item: CharacterDetailItem,
-    onBackClicked: () -> Unit,
+    state : CharacterDetailsState,
+    onRetry: () -> Unit,
+    onNetworkSettings: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    Column(modifier = modifier) {
+    Surface {
+        when {
+            state.isLoading -> DetailsLoading(modifier = modifier)
 
-        DetailsHeader(
-            item = item,
-            modifier = Modifier.weight(1.5f),
-            onBackClicked = onBackClicked
-        )
+            state.hasError -> {
+                ErrorScreen(
+                    modifier = modifier.fillMaxSize(),
+                    errorMessage = stringResource(state.errorMessage ?: R.string.error_unknown),
+                    isNetworkError = state.isNetworkError,
+                    onRetry = onRetry,
+                    onNetworkSettings = onNetworkSettings
+                )
+            }
 
-        DetailsContent(
-            item = item,
-            modifier = Modifier.weight(1f)
-        )
+            state.detailItem != null -> {
+                Column(modifier = modifier) {
+                    DetailsHeader(
+                        item = state.detailItem,
+                        modifier = Modifier.weight(1.5f).background(shimmerEffect())
+                    )
+                    DetailsContent(
+                        item = state.detailItem,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        }
 
     }
+
+
 
 
 }
@@ -67,12 +83,11 @@ fun CharacterDetailsContent(
 @OptIn(ExperimentalGlideComposeApi::class)
 private fun DetailsHeader(
     item: CharacterDetailItem,
-    onBackClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(bottomEnd = 16.dp, bottomStart = 16.dp))
     ) {
 
         GlideImage(
@@ -84,18 +99,7 @@ private fun DetailsHeader(
             contentScale = ContentScale.Crop
         )
 
-        IconButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .align(Alignment.TopStart),
-            colors = IconButtonDefaults.filledTonalIconButtonColors(),
-            onClick = onBackClicked,
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.ArrowBack,
-                contentDescription = stringResource(R.string.back)
-            )
-        }
+        Spacer(modifier = Modifier.matchParentSize().background(Color.Black.copy(.3f)))
 
         CharacterName(
             name = item.name,
@@ -182,17 +186,20 @@ private fun CharacterDetailsContentPreview() {
     AppTheme {
         CharacterDetailsContent(
             modifier = Modifier.statusBarsPadding(),
-            onBackClicked = {},
-            item = CharacterDetailItem(
-                id = 1,
-                name = "Rick Sanchez",
-                status = "Alive",
-                species = "Human",
-                gender = "Male",
-                imageUrl = "",
-                origin = "Earth (C-137)",
-                episodeCount = 1,
-                location = "USA"
+            onRetry = {},
+            onNetworkSettings = {},
+            state = CharacterDetailsState(
+                detailItem = CharacterDetailItem(
+                    id = 1,
+                    name = "Rick Sanchez",
+                    status = "Alive",
+                    species = "Human",
+                    gender = "Male",
+                    imageUrl = "",
+                    origin = "Earth (C-137)",
+                    episodeCount = 1,
+                    location = "USA"
+                )
             )
         )
     }

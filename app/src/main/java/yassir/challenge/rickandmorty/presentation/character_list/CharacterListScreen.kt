@@ -75,8 +75,7 @@ fun CharacterListScreen(
     }
 
 }
-
-private fun Context.openNetworkSettings() {
+ fun Context.openNetworkSettings() {
     val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS).apply {
         flags = Intent.FLAG_ACTIVITY_NEW_TASK
     }
@@ -108,9 +107,9 @@ private fun characterPagingStateProvider(pagingItems: LazyPagingItems<CharacterL
 @Composable
 private fun Throwable.toUserReadableMessage(): String {
     val errorMessage = when (this) {
-        is UnknownHostException -> stringResource(R.string.error_no_internet)
+        is UnknownHostException -> stringResource(R.string.no_internet_title)
         is SocketTimeoutException -> stringResource(R.string.error_timeout)
-        else -> stringResource(R.string.error_unknown)
+        else -> stringResource(R.string.error_subtitle)
     }
     return errorMessage
 }

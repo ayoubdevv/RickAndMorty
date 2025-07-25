@@ -29,6 +29,7 @@ fun CharacterListContent(
             ErrorScreen(
                 modifier = modifier.fillMaxSize(),
                 isNetworkError = state.isNetworkError,
+                errorMessage = state.message,
                 onRetry = { onAction(OnErrorRetry) },
                 onNetworkSettings = { onAction(OnErrorNetworkSettings) })
         }

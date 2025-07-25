@@ -10,6 +10,7 @@
     <string name="error_no_internet">No Internet connection</string>
     <string name="error_timeout">Request timed out</string>
     <string name="error_unknown">Something went wrong</string>
+    <string name="error_server_error">Server error occurred. Try again later.</string>
 
 
     <!-- Generic Error State -->
