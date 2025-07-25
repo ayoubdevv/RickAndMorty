@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import yassir.challenge.rickandmorty.data.remote.source.CharacterPagingSource
 import yassir.challenge.rickandmorty.domain.module.Character
@@ -21,25 +22,10 @@ class GetAllCharacterUseCase @Inject constructor(
     private val repository: CharacterRepository
 ) {
 
-    suspend operator fun invoke(): Result<List<Character>, DataError.Network> {
-
-        return withContext(Dispatchers.IO) {
-            try {
-                val result = repository.getAllCharacter()
-                Result.Success(result)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Result.Failure(DataError.Network.Unknown)
-            }
-        }
-    }
-
-
-    fun characterPaging(query: String? = null): Flow<PagingData<Character>> {
+    operator fun invoke(query: String? = null): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { CharacterPagingSource(repository, query) }
-        ).flow
-
+        ).flow.flowOn(Dispatchers.IO)
     }
 }

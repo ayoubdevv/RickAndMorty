@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import yassir.challenge.rickandmorty.data.remote.CharacterApi
 import yassir.challenge.rickandmorty.data.repository.CharacterRepositoryImpl
@@ -24,7 +25,7 @@ object AppModule  {
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
-        val contentType = MediaType.get("application/json")
+        val contentType = "application/json".toMediaType()
         return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(Json.asConverterFactory(contentType))
             .build()

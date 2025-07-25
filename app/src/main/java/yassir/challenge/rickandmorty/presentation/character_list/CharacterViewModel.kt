@@ -21,12 +21,15 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import retrofit2.HttpException
 import yassir.challenge.rickandmorty.domain.usecase.GetAllCharacterUseCase
 import yassir.challenge.rickandmorty.presentation.character_list.CharacterViewModel.UiEvent.*
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListItem
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListState
+import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterPagingState
 import yassir.challenge.rickandmorty.presentation.mapper.toListItem
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,15 +48,27 @@ class CharacterViewModel @Inject constructor(
     val characterPaging: StateFlow<PagingData<CharacterListItem>> = _state
         .map { it.searchQuery }
         .distinctUntilChanged()
-        .flatMapLatest { query -> getCharacters.characterPaging(query) }
+        .flatMapLatest { query -> getCharacters(query) }
         .map { pagingData -> pagingData.map { it.toListItem() } }
+        .catch {error-> handleException(error) }
         .cachedIn(viewModelScope)
         .stateIn(viewModelScope, SharingStarted.Eagerly, PagingData.empty())
+
+
+    private fun handleException(error: Throwable) {
+        val isNetworkError = error is IOException
+       val state =  if (error is HttpException && error.code() == 404) {
+            CharacterPagingState.Empty
+        } else {
+            CharacterPagingState.Error("",isNetworkError)
+        }
+        _state.update { it.copy(characterPagingState = state) }
+    }
 
     fun onAction(action: CharacterListAction) {
         when (action) {
             is CharacterListAction.OnSearchToggle -> onSearchToggle()
-            is CharacterListAction.SnSearchQueryChanged -> onSearchQueryChanged(action.query)
+            is CharacterListAction.OnSearchQueryChanged -> onSearchQueryChanged(action.query)
             is CharacterListAction.OnItemClicked -> {
                 _eventChannel.trySend(NavigateToDetail(action.id))
             }

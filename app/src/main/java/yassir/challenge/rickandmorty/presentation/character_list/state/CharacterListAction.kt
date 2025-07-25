@@ -6,7 +6,7 @@ sealed class CharacterListAction {
 
     data object OnSearchToggle : CharacterListAction()
 
-    data class SnSearchQueryChanged(val query : String) : CharacterListAction()
+    data class OnSearchQueryChanged(val query : String) : CharacterListAction()
 
     data object OnErrorRetry : CharacterListAction()
 

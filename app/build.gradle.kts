@@ -46,6 +46,12 @@ android {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    })
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -62,10 +68,16 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.retrofit)
+    implementation(libs.okhttp)
     implementation(libs.serialization.json)
     implementation(libs.serialization.converter)
     implementation(libs.glide.compose)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.arch.core.testing)
+    testImplementation(libs.paging.common)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

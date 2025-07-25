@@ -61,7 +61,7 @@ fun CharacterListScreen(
                 isSearching = state.isSearching,
                 searchQuery = state.searchQuery,
                 onSearchToggle = { viewModel.onAction(CharacterListAction.OnSearchToggle) },
-                onSearchQueryChanged = { viewModel.onAction(CharacterListAction.SnSearchQueryChanged(it)) },
+                onSearchQueryChanged = { viewModel.onAction(CharacterListAction.OnSearchQueryChanged(it)) },
             )
         }
     )
