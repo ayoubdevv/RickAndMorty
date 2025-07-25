@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.integration.compose.placeholder
+import yassir.challenge.rickandmorty.AppThemeMode
+import yassir.challenge.rickandmorty.LocalAppTheme
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListItem
 import yassir.challenge.rickandmorty.presentation.commo.GenderText
 import yassir.challenge.rickandmorty.presentation.commo.StatusChip
@@ -104,7 +106,8 @@ fun CharacterItem(
 
 @Composable
 private fun BoxScope.DimOverlay() {
-    val isDarkTheme = isSystemInDarkTheme()
+    val themeState = LocalAppTheme.current
+    val isDarkTheme = themeState.value == AppThemeMode.DARK
 
     val overlayColor = if (isDarkTheme) {
         MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)

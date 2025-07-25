@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,9 +24,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import yassir.challenge.rickandmorty.AppThemeMode
+import yassir.challenge.rickandmorty.LocalAppTheme
 import yassir.challenge.rickandmorty.R
 import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
@@ -38,6 +42,9 @@ fun CharacterTopBar(
     onSearchToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val themeState = LocalAppTheme.current
+    val isDark = themeState.value == AppThemeMode.DARK
 
     AnimatedContent(targetState = isSearching, transitionSpec = {
         fadeIn(tween(300)) togetherWith fadeOut(
@@ -71,6 +78,15 @@ fun CharacterTopBar(
                     IconButton(onClick = onSearchToggle) {
                         Icon(
                             Icons.Default.Search,
+                            contentDescription = stringResource(R.string.topbar_search_btn_content_description)
+                        )
+                    }
+
+                    IconButton(onClick = {
+                        themeState.value = if (isDark) AppThemeMode.LIGHT else AppThemeMode.DARK
+                    }) {
+                        Icon(
+                            painter = painterResource(if (isDark) R.drawable.ic_light else R.drawable.ic_dark),
                             contentDescription = stringResource(R.string.topbar_search_btn_content_description)
                         )
                     }

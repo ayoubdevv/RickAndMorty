@@ -12,13 +12,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import yassir.challenge.rickandmorty.AppThemeMode
+import yassir.challenge.rickandmorty.LocalAppTheme
 
 
 @Composable
 fun shimmerEffect(): Brush {
     val transition = rememberInfiniteTransition()
 
-    val isDarkTheme = isSystemInDarkTheme()
+    val themeState = LocalAppTheme.current
+    val isDarkTheme = themeState.value == AppThemeMode.DARK
 
     val shimmerColors =  if (isDarkTheme) {
         listOf(
