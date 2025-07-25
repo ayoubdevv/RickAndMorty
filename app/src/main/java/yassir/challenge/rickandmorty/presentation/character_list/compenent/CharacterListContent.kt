@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.grid.GridCells.*
+import androidx.compose.foundation.lazy.grid.GridCells.Fixed
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +13,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction
-import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction.*
+import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction.OnErrorNetworkSettings
+import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction.OnErrorRetry
+import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterListAction.OnItemClicked
 import yassir.challenge.rickandmorty.presentation.character_list.state.CharacterPagingState
 import yassir.challenge.rickandmorty.presentation.theme.AppTheme
 
@@ -57,6 +59,8 @@ private fun CharacterList(
 
     val column = if (isLandscape) 4 else 2
 
+    val appendState = state.characters.loadState.append
+
     LazyVerticalGrid(
         modifier = modifier,
         columns = Fixed(column),
@@ -75,8 +79,12 @@ private fun CharacterList(
                 )
             }
         }
+
+        characterGridPagingFooter(appendState, state)
+
     }
 }
+
 
 
 @Preview(device = "spec:width=411dp,height=891dp", showBackground = false, showSystemUi = true)

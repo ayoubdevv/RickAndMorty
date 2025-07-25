@@ -95,17 +95,13 @@ private fun characterPagingStateProvider(pagingItems: LazyPagingItems<CharacterL
                 CharacterPagingState.Error(error.toUserReadableMessage(),isNetworkError)
             }
         }
-        is LoadState.NotLoading -> if (pagingItems.itemCount == 0) {
-            CharacterPagingState.Empty
-        } else {
-            CharacterPagingState.Success(pagingItems)
-        }
+        is LoadState.NotLoading -> CharacterPagingState.Success(pagingItems)
     }
 
 }
 
 @Composable
-private fun Throwable.toUserReadableMessage(): String {
+fun Throwable.toUserReadableMessage(): String {
     val errorMessage = when (this) {
         is UnknownHostException -> stringResource(R.string.no_internet_title)
         is SocketTimeoutException -> stringResource(R.string.error_timeout)
