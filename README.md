@@ -70,8 +70,10 @@ An Android application built using **Jetpack Compose**, **Kotlin**, and the [Ric
 
 ## 📸 Screenshots
 
-![Character List](image/screenshot_character_list.png)
-![Character Details](image/screenshot_character_details.png)
+<p align="center">
+  <img src="image/screenshot_character_list.png" alt="Character List" width="300"/>
+  <img src="image/screenshot_character_details.png" alt="Character Details" width="300"/>
+</p>
  
 
  
