@@ -16,7 +16,7 @@ fun StatusChip(status: String) {
     val color = when (status) {
         "Alive" -> Color.Green
         "Dead" -> Color.Red
-        else -> Color.Gray
+        else -> Color.White.copy(.7f)
     }
 
     Surface(

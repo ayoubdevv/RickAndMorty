@@ -36,7 +36,7 @@ fun CharacterDetails(
     val context = LocalContext.current
 
 
-    LaunchedEffect(Unit) { viewModel::loadCharacterDetails }
+    LaunchedEffect(Unit) { viewModel.loadCharacterDetails() }
 
 
     Scaffold {

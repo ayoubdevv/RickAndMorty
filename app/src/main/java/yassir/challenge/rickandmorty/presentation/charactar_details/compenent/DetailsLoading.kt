@@ -39,14 +39,14 @@ fun DetailsLoading(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .padding(16.dp)
                     .weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 repeat(5) {
                     Spacer(
                         modifier = Modifier
                             .background(shimmerEffect(), CircleShape)
                             .fillMaxWidth()
-                            .height(16.dp)
+                            .height(24.dp)
                     )
                 }
             }
