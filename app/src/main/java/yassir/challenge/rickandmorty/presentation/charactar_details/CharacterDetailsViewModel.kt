@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
-    private val stateHandle: SavedStateHandle,
+      val stateHandle: SavedStateHandle,
     private val detailsUseCase: GetCharacterDetailsUseCase
 ) : ViewModel() {
 
@@ -36,20 +36,16 @@ class CharacterDetailsViewModel @Inject constructor(
     val details = stateHandle.toRoute<Destination.CharacterDetails>()
 
 
-    init {
-        loadCharacterDetails()
-    }
-
 
     fun onRetry() {
         loadCharacterDetails()
     }
 
-    private fun loadCharacterDetails() {
+      fun loadCharacterDetails(characterId : Int = details.characterId) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             delay(250) // to Sho
-            val result = detailsUseCase(details.characterId)
+            val result = detailsUseCase(characterId)
             result.handleResult(::onSuccess, ::onFailure)
         }
     }

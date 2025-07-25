@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,10 +36,11 @@ fun CharacterDetails(
     val context = LocalContext.current
 
 
+    LaunchedEffect(Unit) { viewModel::loadCharacterDetails }
 
 
     Scaffold {
-        Box(Modifier.padding( it)) {
+        Box(Modifier.padding(it)) {
             CharacterDetailsContent(
                 state = state,
                 onRetry = viewModel::onRetry,
