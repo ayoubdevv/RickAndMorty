@@ -1,7 +1,13 @@
 package yassir.challenge.rickandmorty.presentation.character_list.compenent
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -32,32 +38,47 @@ fun CharacterTopBar(
     onSearchToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    if (isSearching) {
-        TextField(
-            value = searchQuery,
-            onValueChange = onSearchQueryChanged,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            placeholder = { Text(stringResource(R.string.topbar_search_characters_hint)) },
-            singleLine = true,
-            trailingIcon = {
-                IconButton(onClick = onSearchToggle) {
-                    Icon(Icons.Default.Close, contentDescription = stringResource(R.string.topbar_close_search_content_description))
-                }
-            }
+
+    AnimatedContent(targetState = isSearching, transitionSpec = {
+        fadeIn(tween(300)) togetherWith fadeOut(
+            tween(300)
         )
-    } else {
-        TopAppBar(
-            modifier = modifier,
-            title = { Text(stringResource(R.string.topbar_title_characters)) },
-            actions = {
-                IconButton(onClick = onSearchToggle) {
-                    Icon(Icons.Default.Search, contentDescription = stringResource(R.string.topbar_search_btn_content_description))
+    }) { isSearching ->
+        if (isSearching) {
+            TextField(
+                value = searchQuery,
+                onValueChange = onSearchQueryChanged,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(16.dp),
+                placeholder = { Text(stringResource(R.string.topbar_search_characters_hint)) },
+                singleLine = true,
+                trailingIcon = {
+                    IconButton(onClick = onSearchToggle) {
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = stringResource(R.string.topbar_close_search_content_description)
+                        )
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            TopAppBar(
+                modifier = modifier,
+                title = { Text(stringResource(R.string.topbar_title_characters)) },
+                actions = {
+                    IconButton(onClick = onSearchToggle) {
+                        Icon(
+                            Icons.Default.Search,
+                            contentDescription = stringResource(R.string.topbar_search_btn_content_description)
+                        )
+                    }
+                }
+            )
+        }
     }
+
 }
 
 
@@ -66,13 +87,13 @@ fun CharacterTopBar(
 private fun CharacterTopBarPreview() {
     AppTheme {
 
-        var isSearching by remember{ mutableStateOf(false) }
-        var searchQuery by remember{ mutableStateOf("") }
+        var isSearching by remember { mutableStateOf(false) }
+        var searchQuery by remember { mutableStateOf("") }
 
         CharacterTopBar(
             isSearching = isSearching,
             searchQuery = searchQuery,
-            onSearchToggle = {isSearching = !isSearching},
+            onSearchToggle = { isSearching = !isSearching },
             onSearchQueryChanged = {
                 searchQuery = it
             }
